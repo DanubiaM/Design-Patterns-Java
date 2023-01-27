@@ -1,4 +1,4 @@
-package br.com.app.store;
+package br.com.app.store.imposto;
 
 import java.math.BigDecimal;
 
