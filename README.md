@@ -105,4 +105,78 @@ A implementação da função para chamada encadeada
 Essse padrão abrange o principio de responsabilidade única e aberto fechado.
 
 
+## Template Method
+
+  Nesse pattern tempos a implementação de uma classe abstrata que encapsula uma template de um algoritmo, permitindo que as classes concretas que herdarem sua implementação, possa definir o passo a passo do algoritmo.
+  
+  ### Exemplo
+Imagine uma classe abstrata chamada Network responsável por fornecer a template para a realização do login em uma rede social. De acordo com a rede social o envio de dado, login e logout varia. 
+    
+    public class Facebook extends Network {
+        public Facebook(String userName, String password) {
+            this.userName = userName;
+            this.password = password;
+        }
+
+        public boolean logIn(String userName, String password) {
+            System.out.println("\nChecking user's parameters");
+            System.out.println("Name: " + this.userName);
+            System.out.print("Password: ");
+            for (int i = 0; i < this.password.length(); i++) {
+                System.out.print("*");
+            }
+            simulateNetworkLatency();
+            System.out.println("\n\nLogIn success on Facebook");
+            return true;
+        }
+
+        public boolean sendData(byte[] data) {
+            boolean messagePosted = true;
+            if (messagePosted) {
+                System.out.println("Message: '" + new String(data) + "' was posted on Facebook");
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public void logOut() {
+            System.out.println("User: '" + userName + "' was logged out from Facebook");
+        }
+
+        private void simulateNetworkLatency() {
+            try {
+                int i = 0;
+                System.out.println();
+                while (i < 10) {
+                    System.out.print(".");
+                    Thread.sleep(500);
+                    i++;
+                }
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+Implementação  na main
+    
+      public class Demo {
+        public static void main(String[] args) throws IOException {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            Network network = null;
+            System.out.print("Input user name: ");
+            String userName = reader.readLine();
+            System.out.print("Input password: ");
+            String password = reader.readLine();
+
+            network = new Facebook(userName, password);
+         
+            network.post(message);
+        }
+    }   
+  
  
+#### Fontes:
+  - <a href= "https://cursos.alura.com.br/course/introducao-design-patterns-java"> Design Patterns em Java I: boas práticas de programação</a>
+  - <a href="https://refactoring.guru/design-patterns/template-method/java/example">Template Method</a>
