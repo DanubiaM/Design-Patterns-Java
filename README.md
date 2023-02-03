@@ -176,7 +176,117 @@ Implementação  na main
         }
     }   
   
+## State
+  
+   Este padrão comportamental permite que o objeto altere seu comportamento quando o seu estado inteiro muda. Neste caso, para cada estado possível é criado uma classe, sendo possível assim, extrair seus comportamentos para essa classe.
+   
+#### Exemplo
+
+Neste exemplo, queremos aplicar o desconto à um orçamento. O valor desse desconto vai variar com o estado do orçamento: aprovado, em análise, reprovado ou finalizado.
+
+
+     public abstract class SituacaoOrcamento {
+   
+        public BigDecimal calcularValorDescontoExtra(Orcamento orcamento) {
+
+          return BigDecimal.ZERO;
+        }
+
+        public void aprovar(Orcamento orcamento) {
+          throw new DomainException("Orcamento não pode ser aprovado");
+        }
+
+        public void reprovar(Orcamento orcamento) {
+          throw new DomainException("Orcamento não pode ser reprovado");
+        }
+
+        public void finalizar(Orcamento orcamento) {
+          throw new DomainException("Orcamento não pode ser finalizado");
+        }
+
+    }
+A situação ordem implementa as situações possíveis de uma ordem, entretando nesse caso quando violado a ordem de estados  é lançado um exception
+
+    public class Aprovado extends SituacaoOrcamento {
+
+
+    public BigDecimal calcularValorDescontoExtra(Orcamento orcamento) {
+      return orcamento.getValor().multiply(new BigDecimal("0.02"));
+    }
+
+
+    public void finalizar(Orcamento orcamento) {
+      orcamento.setSituacao(new Finalizado());
+    }
+
+    }
+   Aprovado pode ser calculado o valor de desconto e finalizado
+   
+     public class Reprovado extends SituacaoOrcamento {
+  
+	
+    public void finalizar(Orcamento orcamento) {
+      orcamento.setSituacao(new Finalizado());
+    }
+
+    }
+  Reprovado não permite cálculos, apenas finalizar.
+  
+  
+    public class Finalizado extends SituacaoOrcamento {
+
+    }
+    
+  Finalizado mão possui nenhum método.
+  
+    public class EmAnalise extends SituacaoOrcamento {
+  
+	
+      public BigDecimal calcularValorDescontoExtra(Orcamento orcamento) {
+        return orcamento.getValor().multiply(new BigDecimal("0.05"));
+      }
+
+
+      public void reprovar(Orcamento orcamento) {
+        orcamento.setSituacao(new Reprovado());
+      }
+
+      public void aprovar(Orcamento orcamento) {
+        orcamento.setSituacao(new Aprovado());
+      }
+	
+    }
+    
+  Em análise o valor do cálculo altera-se e poderá ser aprovado ou reprovado.
+  
+      public class Orcamento {
+
+        private BigDecimal valor;
+        private int quantidadeItens;
+        private SituacaoOrcamento situacao;
+
+
+        public Orcamento(BigDecimal valor, int quantidadeItens) {
+          this.valor = valor;
+          this.quantidadeItens = quantidadeItens;
+          this.situacao= new EmAnalise();
+        }
+
+        public void aplicarDescontoExtra() {
+          BigDecimal valorDoDesontoExtra = this.situacao.calcularValorDescontoExtra(this);
+          this.valor = this.valor.subtract(valorDoDesontoExtra);
+        }
+        //Gettrs and Settrs
+      }
+      
+  Agora quando chamarmos o método para aplicar o desconto, o cálculo será realizado com base no tipo de estado do objeto.
+  
+#### Quando Utilizar?
+  - Quando um objeto comporta-se de maneira diferente dependendo do seu estado, sendo a quantidade de estados grande.
+  - Quando houver código duplicado parecidos baseado em estados.
+
+
  
-#### Fontes:
+## Fontes:
   - <a href= "https://cursos.alura.com.br/course/introducao-design-patterns-java"> Design Patterns em Java I: boas práticas de programação</a>
-  - <a href="https://refactoring.guru/design-patterns/template-method/java/example">Template Method</a>
+  - <a href="https://refactoring.guru/design-patterns/">Refactoring Guru</a>
