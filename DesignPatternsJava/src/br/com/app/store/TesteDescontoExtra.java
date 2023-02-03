@@ -15,7 +15,6 @@ public class TesteDescontoExtra {
 		
 		System.out.println(orcamento.getValor());		
 
-
 		orcamento.setSituacao(new Aprovado());
 		
 		orcamento.aplicarDescontoExtra();

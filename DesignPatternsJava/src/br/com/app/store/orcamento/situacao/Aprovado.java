@@ -14,7 +14,7 @@ public class Aprovado extends SituacaoOrcamento {
 	
 
 	public void finalizar(Orcamento orcamento) {
-		super.finalizar(orcamento);
+		orcamento.setSituacao(new Finalizado());
 	}
 	
 }

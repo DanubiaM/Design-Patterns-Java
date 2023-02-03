@@ -14,11 +14,11 @@ public class EmAnalise extends SituacaoOrcamento {
 	
 
 	public void reprovar(Orcamento orcamento) {
-		super.finalizar(orcamento);
+		orcamento.setSituacao(new Reprovado());
 	}
 	
 	public void aprovar(Orcamento orcamento) {
-		super.aprovar(orcamento);
+		orcamento.setSituacao(new Aprovado());
 	}
 	
 }
