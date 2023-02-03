@@ -111,7 +111,35 @@ Essse padrão abrange o principio de responsabilidade única e aberto fechado.
   
   ### Exemplo
 Imagine uma classe abstrata chamada Network responsável por fornecer a template para a realização do login em uma rede social. De acordo com a rede social o envio de dado, login e logout varia. 
-    
+
+A network:
+	public abstract class Network {
+	    String userName;
+	    String password;
+
+	    Network() {}
+
+	    /**
+	     * Publish the data to whatever network.
+	     */
+	    public boolean post(String message) {
+		// Authenticate before posting. Every network uses a different
+		// authentication method.
+		if (logIn(this.userName, this.password)) {
+		    // Send the post data.
+		    boolean result =  sendData(message.getBytes());
+		    logOut();
+		    return result;
+		}
+		return false;
+	    }
+
+	    abstract boolean logIn(String userName, String password);
+	    abstract boolean sendData(byte[] data);
+	    abstract void logOut();
+	}
+	
+Classe que extendem a network
     public class Facebook extends Network {
         public Facebook(String userName, String password) {
             this.userName = userName;
