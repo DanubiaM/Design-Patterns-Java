@@ -33,6 +33,12 @@ Padão que permite o conapsulamento de um algoritmo, de modo que possa variar en
 
 Esse padrão obdece o princípio Open-Closed de SOLID. Sempre que houver a necessidade do cálculo de um imposto diferente basta que agora seja implementada uma nova classe, não necessitando de modificação no algoritmo já existente.
 
+### Visual é melhor ;)
+
+![image](https://user-images.githubusercontent.com/53872016/218346794-5e51084f-ace4-476b-930c-dbb23303394c.png)
+
+
+
 ## Chain of Responsabilitty
 
 Permite que solicitações sejam enviadas ao longo de uma cadeia. Ao receber uma solicitação, o manipulador verifica se atende a necessidade atual ou passa para o próximo manipulador.
