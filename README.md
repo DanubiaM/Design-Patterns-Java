@@ -149,6 +149,7 @@ A network:
 	}
 	
 Classe que extendem a network
+
     public class Facebook extends Network {
         public Facebook(String userName, String password) {
             this.userName = userName;
@@ -212,7 +213,10 @@ Implementação  na main
             network.post(message);
         }
     }   
-  
+### Visual é melhor ;)
+
+  ![image](https://user-images.githubusercontent.com/53872016/219984662-60278ddc-941c-4c9d-a5dd-937357ce1af4.png)
+
 ## State
   
    Este padrão comportamental permite que o objeto altere seu comportamento quando o seu estado inteiro muda. Neste caso, para cada estado possível é criado uma classe, sendo possível assim, extrair seus comportamentos para essa classe.
