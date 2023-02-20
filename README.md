@@ -81,7 +81,7 @@ Implementações do cálculo do desconto
       }
     }
     
-   public class SemDesconto extends Desconto{
+  	 public class SemDesconto extends Desconto{
 
     public SemDesconto() {
       super(null);
@@ -95,21 +95,24 @@ Implementações do cálculo do desconto
   }
 
 A implementação da função para chamada encadeada
-    public class CalculadoraDeDescontos {
+	
+	public class CalculadoraDeDescontos {
 
-      public BigDecimal calcular(Orcamento orcamento) {
+	      public BigDecimal calcular(Orcamento orcamento) {
 
-        Desconto desconto  = 
-            new DescontoParaOrcamentoComMaisDeCincoItens(
-            new DescontoParaOrcamentoComValorMaiorQueQuinhentos( new SemDesconto()));
+		Desconto desconto  = 
+		    new DescontoParaOrcamentoComMaisDeCincoItens(
+		    new DescontoParaOrcamentoComValorMaiorQueQuinhentos( new SemDesconto()));
 
-        return desconto.calcular(orcamento);
-      }
+		return desconto.calcular(orcamento);
+	      }
 
-    }
+	    }
     
 Essse padrão abrange o principio de responsabilidade única e aberto fechado.
+### Visual é melhor ;)
 
+![image](https://user-images.githubusercontent.com/53872016/219983598-aab5dca7-5f1a-4120-a6af-4f3e4f201e15.png)
 
 ## Template Method
 
