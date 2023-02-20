@@ -278,7 +278,7 @@ A situação ordem implementa as situações possíveis de uma ordem, entretando
 
     }
     
-  Finalizado mão possui nenhum método.
+  Finalizado não possui nenhum método.
   
     public class EmAnalise extends SituacaoOrcamento {
   
@@ -326,6 +326,8 @@ A situação ordem implementa as situações possíveis de uma ordem, entretando
   - Quando um objeto comporta-se de maneira diferente dependendo do seu estado, sendo a quantidade de estados grande.
   - Quando houver código duplicado parecidos baseado em estados.
 
+### Visual é melhor ;)
+![image](https://user-images.githubusercontent.com/53872016/219990351-769acd3c-c53d-4570-8c2a-c523e1a89252.png)
 
  
 ## Fontes:
