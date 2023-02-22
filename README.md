@@ -330,6 +330,158 @@ A situação ordem implementa as situações possíveis de uma ordem, entretando
 ![image](https://user-images.githubusercontent.com/53872016/219990351-769acd3c-c53d-4570-8c2a-c523e1a89252.png)
 
  
+## Command
+
+Encapsula uma solicitação como um objeto, desta forma permitindo que você parametrize clientes com diferentes solicitações, enfileire ou registre (log) solicitações e suporte operações que podem ser desfeitas. Uma das suas caracteristicas é o desaclopamento do código do objeto que faz a solicitação com o objeto que recebe a solicitação.
+
+### Exemplo
+	
+	Primeiro criamos um Receiver (quem recebe o comando)
+		
+		public class SmartHouseLight{
+			private Boolean isOn;
+			private Integer intensity;
+			public String name;
+			
+			SmartHouse(String name ){
+			
+				this.name =  name;
+			}
+			
+			private String getPorweStatus(){
+				return this.isOn ? "ON" : "OFF";
+			}
+			
+			private Boolean on(){
+				this.isOn=true;
+				
+				return this.isOn;
+			
+			}
+			
+			private Boolean off(){
+				this.isOn=false;
+				
+				return this.isOn
+			
+			}
+			
+			
+			private Integer increaseIntensity(){
+			
+				if(this.intensity >=100) {return  this.intensity}
+				
+				this.intensity+=1;
+				return this.intensity;
+			}
+			
+			private Integer decreaseIntensity(){
+			
+				if(this.intensity <= 0) {return  this.intensity}
+				
+				this.intensity-=1;
+				return this.intensity;
+			}
+
+		}
+	
+
+	Agora vamos criar nossa interface Command:
+	
+		public Interface SmartHouseCommand{
+			public void execute();
+			public void undo();
+		
+		}
+		
+	Interface criada, vamos ao Commandle:
+	
+	 public class LightPowerCommand implements SmartHouseCommand{
+	 	public SmarthHouseLight light;
+		
+		public  LightPowerCommand(SmarthHouseLight light){
+			this.light = light;
+		}
+		
+		@Override
+		public void execute(){
+			this.light.on();
+		}
+		
+		@Override
+		public void undo(){
+			this.light.off();
+		}
+		
+	 }
+	 
+	O Invoker:
+	
+		public class SmartHouseApp(){
+			private Map<String, SmartHouseCommand> commands;
+			
+			public void addCommand(String key, SmartHouseCommand command){
+				this.commands.put(key, command);
+			}
+			
+			public void executeCommand(String key){
+				commands.get(key).execute();
+			}
+			
+			public void undoCommand(String key){
+				commands.get(key).undo();
+			}
+			
+			
+		
+		}
+		
+		
+	E minha main:
+	
+	 public class Demo {
+        	public static void main(String[] args) throws IOException {
+		
+			//Receiver
+			SmartHouseLight bedroomLight = new SmartHouseLight('Luz Quarto');
+			SmartHouseLight bathroomLight = new SmartHouseLight('Luz Banheiro);
+
+			//Command
+			LightPowerCommand bedroomLightCommand = new LightPowerCommand(bedroomLight);
+			LightPowerCommand bathroomLightCommand = new LightPowerCommand(bathroomLight);
+
+			lighhtPoweCommand.execute();
+			lighhtPoweCommand.undo();
+			
+			//Ou podemos fazer assim - Invoker
+			SmartHouseApp smartHouseApp = new SmartHouseApp();			
+			smartHouseApp.addCommand('btn-1', bedroomLightCommand );
+			smartHouseApp.addCommand('btn-2', bathroomLightCommand);
+
+			smartHouseApp.executeCommand('btn-1');
+			smartHouseApp.undoCommand('btn-1');
+			
+			smartHouseApp.executeCommand('btn-2');
+			smartHouseApp.undoCommand('btn-2');
+
+			
+			
+		}
+	
+### Quando Utilizar?
+	- Desacoplar o objeto que envia a solicitação do objeto que recebe;
+	- Tratar um comando como um objeto.
+	- Permitir que ações sejam feitas e desfeitas.
+	
+	
+### Visual é melhor ;)
+![image](https://user-images.githubusercontent.com/53872016/220515841-4cf16a35-eaee-49be-ae06-cebfce49a4b1.png)
+
+
+
+ 
+ 
 ## Fontes:
   - <a href= "https://cursos.alura.com.br/course/introducao-design-patterns-java"> Design Patterns em Java I: boas práticas de programação</a>
   - <a href="https://refactoring.guru/design-patterns/">Refactoring Guru</a>
+  - <a href="https://www.youtube.com/watch?v=-lRzadP9kJQ&list=PLbIBj8vQhvm0VY5YrMrafWaQY2EnJ3j8H&index=30"> Padrões de Projeto - Otávio Miranda</a>
